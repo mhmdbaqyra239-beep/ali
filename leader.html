@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>شاشة الليدر</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <a href="index.html"><button>⬅️ الرجوع</button></a>
+  <h2>تسجيل حضور الطلاب</h2>
+  <label>اكتب اسم القاعة حقتك</label>
+  <input type="text" id="myClass" placeholder="مثال: قاعة 1">
+  <button onclick="loadStudents()">عرض الطلاب</button>
+  
+  <div id="studentsList" style="margin-top:20px;"></div>
+</div>
+
+<script>
+function loadStudents(){
+  let className = document.getElementById('myClass').value;
+  let students = JSON.parse(localStorage.getItem('students')||'[]');
+  let list = students.filter(s => s.class == className);
+  
+  let html = '';
+  list.forEach(s => {
+    html += `<div style="background:#eee;padding:10px;margin:5px;border-radius:5px;">
+      ${s.name} 
+      <button onclick="mark('${s.name}','حاضر')">حاضر</button>
+      <button onclick="mark('${s.name}','غائب')">غائب</button>
+    </div>`;
+  });
+  document.getElementById('studentsList').innerHTML = html;
+}
+
+function mark(name, status){
+  let today = new Date().toISOString().split('T')[0];
+  let attendance = JSON.parse(localStorage.getItem('attendance')||'{}');
+  if(!attendance[today]) attendance[today] = {};
+  attendance[today][name] = status;
+  localStorage.setItem('attendance',JSON.stringify(attendance));
+  alert(name + ' : ' + status);
+}
+</script>
+</body>
+</html>

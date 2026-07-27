@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>مدير الجامعة</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+  <a href="index.html"><button>⬅️ الرجوع</button></a>
+  <h2>شاشة مدير الجامعة</h2>
+  
+  <h3>اضافة طالب</h3>
+  <label>اسم الطالب</label>
+  <input type="text" id="studentName" placeholder="اكتب اسم الطالب">
+  <label>الصف</label>
+  <input type="text" id="studentClass" placeholder="مثال: قاعة 1">
+  <button onclick="addStudent()">حفظ الطالب</button>
+
+  <h3 style="margin-top:30px;">اضافة ليدر</h3>
+  <label>اسم الليدر</label>
+  <input type="text" id="leaderName" placeholder="اكتب اسم الليدر">
+  <label>القاعة المسؤول عنها</label>
+  <input type="text" id="leaderClass" placeholder="مثال: قاعة 1">
+  <button onclick="addLeader()">حفظ الليدر</button>
+  
+  <p id="msg" style="color:green;text-align:center;"></p>
+</div>
+
+<script>
+function addStudent(){
+  let students = JSON.parse(localStorage.getItem('students')||'[]');
+  students.push({
+    name: document.getElementById('studentName').value,
+    class: document.getElementById('studentClass').value
+  });
+  localStorage.setItem('students',JSON.stringify(students));
+  document.getElementById('msg').innerText = '✅ تم حفظ الطالب';
+}
+
+function addLeader(){
+  let leaders = JSON.parse(localStorage.getItem('leaders')||'[]');
+  leaders.push({
+    name: document.getElementById('leaderName').value,
+    class: document.getElementById('leaderClass').value
+  });
+  localStorage.setItem('leaders',JSON.stringify(leaders));
+  document.getElementById('msg').innerText = '✅ تم حفظ الليدر';
+}
+</script>
+</body>
+</html>
